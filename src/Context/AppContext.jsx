@@ -7,13 +7,18 @@ const AppProvider = ({ children }) => {
   const initialState = {
     categories: categories,
     allVideos: videos,
+    filteredVideos: videos,
+    watchLater: []
   };
 
   const reducerFun = (state, action) => {
     switch (action.type) {
-      case "DELETE_ITEM":
+      case "SEARCH":
         return {
           ...state,
+          filteredVideos: videos.filter(({ title }) =>
+            title.toLowerCase().includes(action.payload.toLowerCase().trim())
+          ),
         };
 
       default:

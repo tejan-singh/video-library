@@ -8,17 +8,18 @@ const Video = () => {
   const {
     appState: { allVideos },
   } = useContext(AppContext);
-  const { category } = useParams();
-
-  const videos = allVideos.filter((video) => video.category === category);
+  const { videoId } = useParams();
+  console.log(videoId);
+  const { title, src } = allVideos.find(
+    (video) => video._id === Number(videoId)
+  );
 
   return (
     <>
       <Navbar />
-      <h1> {category} Videos</h1>
-      {videos.map((video) => (
-        <VideoCard key={video._id} {...video} isVideo />
-      ))}
+
+      <iframe width="420" height="315" src={src}></iframe>
+      <p>{title}</p>
     </>
   );
 };
