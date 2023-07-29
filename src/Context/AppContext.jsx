@@ -38,15 +38,41 @@ const AppProvider = ({ children }) => {
           allVideos: updatedAllVideos,
           filteredVideos: updatedAllVideos,
         };
+
+      case "REMOVE_FROM_WATCH_LATER":
+        const removeWatchLaterVideo = state.watchLater.filter(
+          (video) => video._id !== action.payload
+        );
+        const updatedAllVideosAfterRemove = state.allVideos.map((video) =>
+          video._id === action.payload
+            ? { ...video, isWatchLater: false }
+            : video
+        );
+        return {
+          ...state,
+          watchLater: removeWatchLaterVideo,
+          allVideos: updatedAllVideosAfterRemove,
+          filteredVideos: updatedAllVideosAfterRemove,
+        };
       default:
         return state;
     }
   };
 
+  const removeFromWatchLater = (_id) => {
+    dispatch({ type: "REMOVE_FROM_WATCH_LATER", payload: _id });
+  };
+
+  const addToWatchLater = (_id) => {
+    dispatch({ type: "ADD_TO_WATCH_LATER", payload: _id });
+  };
+
   const [appState, dispatch] = useReducer(reducerFun, initialState);
   console.log(appState);
   return (
-    <AppContext.Provider value={{ appState, dispatch }}>
+    <AppContext.Provider
+      value={{ appState, dispatch, removeFromWatchLater, addToWatchLater }}
+    >
       {children}
     </AppContext.Provider>
   );

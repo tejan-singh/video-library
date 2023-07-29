@@ -13,15 +13,8 @@ const CategoryCard = ({
   views,
   isWatchLater,
 }) => {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch, removeFromWatchLater, addToWatchLater } = useContext(AppContext);
 
-  const removeFromWatchLater = () => {
-    console.log("removed");
-  };
-
-  const addToWatchLater = (_id) => {
-    dispatch({ type: "ADD_TO_WATCH_LATER", payload: _id });
-  };
 
   return (
     <article>
