@@ -10,7 +10,12 @@ const AppProvider = ({ children }) => {
     allVideos: videos,
     filteredVideos: videos,
     watchLater: [],
-    allPlaylists: [{ id: uuid(), name: "Music", videos: [] }],
+    allPlaylists: [
+      {
+        id: uuid(),
+        name: "Music",
+      },
+    ],
   };
 
   const reducerFun = (state, action) => {
@@ -84,6 +89,28 @@ const AppProvider = ({ children }) => {
           ...state,
           allPlaylists: updatedPlaylist,
         };
+
+      case "ADD_TO_PLAYLIST":
+        const addedToPlaylist = state.allVideos.map((video) =>
+          video._id === action.payload.videoId
+            ? { ...video, playlist: action.payload.playlistName }
+            : video
+        );
+        return {
+          ...state,
+          allVideos: addedToPlaylist,
+        };
+
+      case "REMOVE_VIDEO_FROM_PLAYLIST":
+        const updatedAllPlaylist = state.allVideos.map((video) =>
+          video._id === action.payload.videoId
+            ? { ...video, playlist: "" }
+            : video
+        );
+        return {
+          ...state,
+          allVideos: updatedAllPlaylist,
+        };
       default:
         return state;
     }
@@ -97,12 +124,33 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "ADD_TO_WATCH_LATER", payload: _id });
   };
 
+  const removeFromPlaylist = (_id, playlistName) => {
+    dispatch({
+      type: "REMOVE_VIDEO_FROM_PLAYLIST",
+      payload: { playlistName: playlistName, videoId: _id },
+    });
+  };
+
+  const handleAddToPlaylist = (_id, playlistName) => {
+    dispatch({
+      type: "ADD_TO_PLAYLIST",
+      payload: { playlistName: playlistName, videoId: _id },
+    });
+  };
+
   const [appState, dispatch] = useReducer(reducerFun, initialState);
   console.log(appState);
 
   return (
     <AppContext.Provider
-      value={{ appState, dispatch, removeFromWatchLater, addToWatchLater }}
+      value={{
+        appState,
+        dispatch,
+        removeFromWatchLater,
+        addToWatchLater,
+        removeFromPlaylist,
+        handleAddToPlaylist,
+      }}
     >
       {children}
     </AppContext.Provider>

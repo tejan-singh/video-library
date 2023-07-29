@@ -17,7 +17,7 @@ const VideoListing = () => {
       <Navbar />
       <h1> {category} Videos</h1>
       {videos.map((video) => (
-        <VideoCard key={video._id} {...video} isVideo />
+        <VideoCard key={video._id} {...video} fromVideoListing />
       ))}
     </>
   );
