@@ -1,6 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
 import { categories } from "../data/categories";
 import { videos } from "../data/videos";
+import { v4 as uuid } from "uuid";
 export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
@@ -9,6 +10,7 @@ const AppProvider = ({ children }) => {
     allVideos: videos,
     filteredVideos: videos,
     watchLater: [],
+    allPlaylists: [{ id: uuid(), name: "Music", videos: [] }],
   };
 
   const reducerFun = (state, action) => {
@@ -53,6 +55,34 @@ const AppProvider = ({ children }) => {
           watchLater: removeWatchLaterVideo,
           allVideos: updatedAllVideosAfterRemove,
           filteredVideos: updatedAllVideosAfterRemove,
+        };
+
+      case "ADD_PLAYLIST":
+        return {
+          ...state,
+          allPlaylists: [
+            ...state.allPlaylists,
+            { id: uuid(), name: action.payload, videos: [] },
+          ],
+        };
+      case "EDIT_PLAYLIST":
+        const newPlaylists = state.allPlaylists.map((playlist) =>
+          playlist.id === action.payload.id
+            ? { ...playlist, name: action.payload.name }
+            : playlist
+        );
+        return {
+          ...state,
+          allPlaylists: newPlaylists,
+        };
+
+      case "DELETE_PLAYLIST":
+        const updatedPlaylist = state.allPlaylists.filter(
+          (playlist) => playlist.id !== action.payload
+        );
+        return {
+          ...state,
+          allPlaylists: updatedPlaylist,
         };
       default:
         return state;

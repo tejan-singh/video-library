@@ -8,6 +8,7 @@ import VideoListing from "./Pages/VideoListing";
 import Video from "./Pages/Video";
 
 import ErrorPage from "./Pages/ErrorPage";
+import Playlist from "./Pages/Playlist";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/watchlater" element={<WatchLater />} />
         <Route path="/categories/:category" element={<VideoListing />} />
         <Route path="/videos/:videoId" element={<Video />} />
+        <Route path="/playlists/:playlistName" element={<Playlist />} />
       </Routes>
     </div>
   );
