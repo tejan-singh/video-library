@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CategoryCard = ({ _id, thumbnail, src, category }) => {
   return (
-    <article>
+    <article className="categories">
       <Link to={`/categories/${category}`}>
         <img src={thumbnail} alt={thumbnail} />
       </Link>

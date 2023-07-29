@@ -11,10 +11,12 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <h1>Categories</h1>
-      {categories.map((eachCategory) => (
-        <CategoryCard key={eachCategory._id} {...eachCategory} />
-      ))}
+        <h1>Categories</h1>
+      <div className="home">
+        {categories.map((eachCategory) => (
+          <CategoryCard key={eachCategory._id} {...eachCategory} />
+        ))}
+      </div>
     </>
   );
 };
