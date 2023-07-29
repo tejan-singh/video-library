@@ -46,16 +46,21 @@ const AllPlaylist = () => {
       {allPlaylists.map(({ id, name }) => (
         <>
           {editId === id ? (
-            <form onSubmit={handlePlaylistChange}>
-              <input
-                required
-                type="text"
-                onChange={(e) => setPlaylistName(e.target.value)}
-                value={playlistName}
-              />
-              <button type="submit">Save</button>
-              <button onClick={() => setEditId(null)}>Cancel</button>
-            </form>
+            <div className="popup-box">
+              <div className="box">
+                <form onSubmit={handlePlaylistChange}>
+                  <p>Edit</p>
+                  <input
+                    required
+                    type="text"
+                    onChange={(e) => setPlaylistName(e.target.value)}
+                    value={playlistName}
+                  />
+                  <button type="submit">Save</button>
+                  <button onClick={() => setEditId(null)}>Cancel</button>
+                </form>
+              </div>
+            </div>
           ) : (
             <article key={id}>
               <Link to={`/playlists/${name}`}>{name}</Link>
@@ -75,16 +80,21 @@ const AllPlaylist = () => {
         </>
       ))}
       {showModal && (
-        <form onSubmit={handleAddPlaylist}>
-          <input
-            required
-            type="text"
-            onChange={(e) => setUserInput(e.target.value)}
-            value={userInput}
-          />
-          <button type="submit">Save</button>
-          <button onClick={() => setShowModal(false)}>Cancel</button>
-        </form>
+        <div className="popup-box">
+          <div className="box">
+            <p>Add new playlist</p>
+            <form onSubmit={handleAddPlaylist}>
+              <input
+                required
+                type="text"
+                onChange={(e) => setUserInput(e.target.value)}
+                value={userInput}
+              />
+              <button type="submit">Save</button>
+              <button onClick={() => setShowModal(false)}>Cancel</button>
+            </form>
+          </div>
+        </div>
       )}
       {!showModal && (
         <button onClick={() => setShowModal(true)}>Add playlist</button>
