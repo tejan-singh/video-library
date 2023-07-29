@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AppContext } from "../Context/AppContext";
 
 const CategoryCard = ({
   _id,
@@ -12,12 +13,14 @@ const CategoryCard = ({
   views,
   isWatchLater,
 }) => {
+  const { dispatch } = useContext(AppContext);
+
   const removeFromWatchLater = () => {
     console.log("removed");
   };
 
-  const addToWatchLater = () => {
-    console.log("added");
+  const addToWatchLater = (_id) => {
+    dispatch({ type: "ADD_TO_WATCH_LATER", payload: _id });
   };
 
   return (
@@ -29,7 +32,17 @@ const CategoryCard = ({
       <p>{creator}</p>
       <p>{category}</p>
       <p>{views} views</p>
-      <button onClick={isWatchLater ? removeFromWatchLater : addToWatchLater}>
+      <button
+        onClick={
+          isWatchLater
+            ? () => {
+                removeFromWatchLater(_id);
+              }
+            : () => {
+                addToWatchLater(_id);
+              }
+        }
+      >
         {isWatchLater ? "remove from watch later" : "watch later"}
       </button>
     </article>
