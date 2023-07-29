@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { categories } from "../data/categories";
 import { videos } from "../data/videos";
 export const AppContext = createContext();
@@ -69,6 +69,7 @@ const AppProvider = ({ children }) => {
 
   const [appState, dispatch] = useReducer(reducerFun, initialState);
   console.log(appState);
+
   return (
     <AppContext.Provider
       value={{ appState, dispatch, removeFromWatchLater, addToWatchLater }}
